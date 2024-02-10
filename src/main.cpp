@@ -1,4 +1,6 @@
 #include <iostream>
+#include <chrono>
+#include <algorithm>
 #include <ctime>
 #include <cstdlib>
 #include "file.h"
@@ -52,6 +54,8 @@ int inputChoice(int start, int end) {
 }
 
 void runGame(int choice, Solver solve) {
+    int runtime;
+    chrono::steady_clock sc;
     File file("");
     cout << "--Matrix Token--" << endl;
     solve.displayMatrix(); cout << endl;
@@ -62,24 +66,37 @@ void runGame(int choice, Solver solve) {
     cout << "Jumlah sekuens: " << solve.sequence.size() << endl;
     for (int i = 0; i < solve.reward.size(); i++) {
         cout << i + 1 << ". Reward: " << solve.reward[i]<< " - sekuens: " << solve.sequence[i] << endl;
+        solve.sequence[i].erase(remove_if(solve.sequence[i].begin(), solve.sequence[i].end(), ::isspace), solve.sequence[i].end());
     }
-    cout << "Apakah ingin melihat solusi?\n1. Ya\n2. Tidak" << endl;
+    cout << "\nApakah ingin melihat solusi?\n1. Ya\n2. Tidak" << endl;
     choice = inputChoice(1, 2);
     if (choice == 1) {
-        solve.solve();
+        auto start = sc.now();
+        vector<vector<bool>> flag(solve.getRowLength(), vector<bool>(solve.getColLength(), false));
+        vector<tuple<int, int>> currCoord;
+        for (int i = 0; i < solve.getColLength(); i++) {
+            solve.search(0, i, solve.getElmt(0, i), true, 1);
+        }
+        auto end = sc.now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
         cout << "---Solusi---\nReward: " << solve.point << "\nToken: ";
         for (int i = 0; i < solve.coordinate.size(); i++) {
             int x = get<0>(solve.coordinate[i]);
             int y = get<1>(solve.coordinate[i]);
             cout << solve.getElmt(x, y) << " ";
-        } 
-        cout << "\nKoordinat:\n"; solve.displayCoordinate();
+        }
+        cout << "\nKoordinat:\n"; solve.displayCoordinate(); cout << endl;
+        runtime = duration.count();
+        cout << runtime << " ms" << endl;
     }
-    cout << "Apakah ingin menyimpan solusi?\n1. Ya\n2. Tidak" << endl;
+    cout << "\nApakah ingin menyimpan solusi?\n1. Ya\n2. Tidak" << endl;
     choice = inputChoice(1, 2);
     if (choice == 1) {
-        file.save();
+        file.saveToFile(solve, runtime);
     }
+    cout << "\nPress enter to continue...";
+    cin.ignore();
+    cin.get();
 }
 
 int main() {

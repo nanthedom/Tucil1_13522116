@@ -1,6 +1,7 @@
 #ifndef __FILE_H
 #define __FILE_H
 
+#include <iostream>
 #include <fstream>
 #include <string>
 #include "solver.h"
@@ -19,7 +20,7 @@ class File {
         // load & save
         string readFileName();
         Solver fromFile();
-        void save();
+        void saveToFile(Solver solve, int duration);
 };
 
 #endif

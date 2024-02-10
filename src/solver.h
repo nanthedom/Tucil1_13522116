@@ -9,11 +9,13 @@ using namespace std;
 class Solver {
     public:
         int point;
-        int buffer;  
+        int buffer;
         vector<int> reward;
         vector<string> sequence;
         vector<tuple<int, int>> coordinate;
+        vector<tuple<int, int>> currCoord;
         vector<vector<string>> matrix;
+        vector<vector<bool>> flag;
 
         // konstruktor
         Solver(int buffsize, int row, int col);
@@ -30,12 +32,11 @@ class Solver {
         void displayMatrix();
         void displayCoordinate();
 
-        // operasi
+        // operasi lainnya
         void addReward(int val);
         void addSequence(string val);
         int countReward(string val);
-        void search(int row, int col, string currToken, vector<vector<bool>> flag, bool vertikal, vector<tuple<int, int>> currCoord, int step);
-        void solve();
+        void search(int row, int col, string currToken, bool vertikal, int step);
 };
 
 #endif
