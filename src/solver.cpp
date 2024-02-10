@@ -8,6 +8,7 @@ using namespace std;
 Solver::Solver(int buffsize, int row, int col) {
     point = 0;
     buffer = buffsize;
+    maxpts = 0;
     matrix = vector<vector<string>>(row, vector<string>(col));
     flag = vector<vector<bool>>(row, vector<bool>(col, false));
 }
@@ -28,20 +29,37 @@ int Solver::getColLength() {
     return matrix[0].size();
 }
 
-void Solver::displayMatrix() {
+void Solver::displayMatrixToken() {
+    cout << "--Matrix Token--" << endl;
     for (int i = 0; i < getRowLength(); i++) {
         for (int j = 0; j < getColLength(); j++) {
             cout << matrix[i][j] << " ";
         }
         cout << endl;
-    }
+    } cout << endl;
 }
 
 void Solver::displayCoordinate() {
+    cout << "\nKoordinat:\n";
     for (int i = 0; i < coordinate.size(); i++) {
         int x = get<0>(coordinate[i]);
         int y = get<1>(coordinate[i]);
         cout << y + 1 << ", " << x + 1 << endl;
+    } cout << endl;
+}
+
+void Solver::displayBuffer() {
+    cout << "Ukuran buffer: " << buffer << " [ ";
+    for (int i = 0; i < buffer; i++) {
+        cout << "_ ";
+    } cout << "]\n" << endl;
+}
+
+void Solver::displayRewardSequence() {
+    cout << "Jumlah sekuens: " << sequence.size() << endl;
+    for (int i = 0; i < reward.size(); i++) {
+        cout << i + 1 << ". Reward: " << reward[i]<< " - sekuens: " << sequence[i] << endl;
+        sequence[i].erase(remove_if(sequence[i].begin(), sequence[i].end(), ::isspace), sequence[i].end());
     }
 }
 
@@ -53,6 +71,13 @@ void Solver::addSequence(string val) {
     sequence.push_back(val);
 }
 
+void Solver::maxReward() {
+    for (int i = 0; i < reward.size(); i++) {
+        if (reward[i] > 0) {
+            maxpts += reward[i];
+        }
+    }   
+}
 
 int Solver::countReward(string val) {
     int res = 0;
@@ -70,7 +95,7 @@ void Solver::search(int row, int col, string currToken, bool vertikal, int step)
     flag[row][col] = true;
 
     int currReward = countReward(currToken);
-    if (currReward > point) {
+    if (currReward > point || (currReward == point && currCoord.size() < coordinate.size())) {
         point = currReward;
         coordinate = currCoord;
     }
@@ -78,14 +103,20 @@ void Solver::search(int row, int col, string currToken, bool vertikal, int step)
     if (step < buffer) {
         if (vertikal) {
             for (int i = 0; i < getRowLength(); i++) {
-                if (!flag[i][col]) {
+                if (point == maxpts) {
+                    return;
+                }
+                else if (!flag[i][col]) {
                     search(i, col, currToken + getElmt(i, col), !vertikal, step + 1);
                 }
             }
         }
         else {
             for (int i = 0; i < getColLength(); i++) {
-                if (!flag[row][i]) {
+                if (point == maxpts) {
+                    return;
+                }
+                else if (!flag[row][i]) {
                     search(row, i, currToken + getElmt(row, i), !vertikal, step + 1);
                 }
             }     

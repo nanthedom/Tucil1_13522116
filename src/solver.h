@@ -10,6 +10,7 @@ class Solver {
     public:
         int point;
         int buffer;
+        int maxpts;
         vector<int> reward;
         vector<string> sequence;
         vector<tuple<int, int>> coordinate;
@@ -29,12 +30,15 @@ class Solver {
         int getColLength();
         
         // output
-        void displayMatrix();
+        void displayMatrixToken();
         void displayCoordinate();
+        void displayBuffer();
+        void displayRewardSequence();
 
         // operasi lainnya
         void addReward(int val);
         void addSequence(string val);
+        void maxReward();
         int countReward(string val);
         void search(int row, int col, string currToken, bool vertikal, int step);
 };

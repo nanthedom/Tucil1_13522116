@@ -1,6 +1,5 @@
 #include <iostream>
 #include <chrono>
-#include <algorithm>
 #include <ctime>
 #include <cstdlib>
 #include "file.h"
@@ -15,7 +14,7 @@ void clearScreen() {
     #endif
 };
 
-void printHeader() {
+void displayHeader() {
     cout << R"(
    ___     _  _   _                        _ __                    _     
   / __|   | || | | |__     ___      _ _   |  _ \  _  _    _ _     | |__  
@@ -30,69 +29,56 @@ _|-----|_|-----|_|-----|_|-----|_|-----|_|-----|_|-----|_|-----|_|-----|
 ------------------------------------------------)" << "\n\n";
 };
 
-void printMenu() {
+void displayMenu() {
     cout << "Pilih metode masukan:\n1. File\n2. Keyboard & random\n3. Keluar" << endl;
 };
-
-void printChoice() {
-    cout << ">> Masukkan pilihan: ";
-};
-
-void printErrorInput() {
-    cout << "Error: Input tidak valid!\n";
-}
 
 int inputChoice(int start, int end) {
     int choice;
     do {
-        printChoice(); cin >> choice;
+        cout << ">> Masukkan pilihan: "; cin >> choice;
         if (choice < start || choice > end) {
-            printErrorInput();
+            cout << "Error: Input tidak valid!\n";
         } cout << "\n";        
     } while (choice < start || choice > end);
     return choice;
 }
 
 void runGame(int choice, Solver solve) {
-    int runtime;
-    chrono::steady_clock sc;
     File file("");
-    cout << "--Matrix Token--" << endl;
-    solve.displayMatrix(); cout << endl;
-    cout << "Ukuran buffer: " << solve.buffer << " [ ";
-    for (int i = 0; i < solve.buffer; i++) {
-        cout << "_ ";
-    } cout << "]\n" << endl;
-    cout << "Jumlah sekuens: " << solve.sequence.size() << endl;
-    for (int i = 0; i < solve.reward.size(); i++) {
-        cout << i + 1 << ". Reward: " << solve.reward[i]<< " - sekuens: " << solve.sequence[i] << endl;
-        solve.sequence[i].erase(remove_if(solve.sequence[i].begin(), solve.sequence[i].end(), ::isspace), solve.sequence[i].end());
-    }
+    solve.displayMatrixToken();
+    solve.displayBuffer();
+    solve.displayRewardSequence();
+    solve.maxReward();
+
     cout << "\nApakah ingin melihat solusi?\n1. Ya\n2. Tidak" << endl;
     choice = inputChoice(1, 2);
-    if (choice == 1) {
-        auto start = sc.now();
-        vector<vector<bool>> flag(solve.getRowLength(), vector<bool>(solve.getColLength(), false));
-        vector<tuple<int, int>> currCoord;
+    if (choice == 1) {    
+        // brute force
+        auto start = std::chrono::steady_clock::now();
         for (int i = 0; i < solve.getColLength(); i++) {
             solve.search(0, i, solve.getElmt(0, i), true, 1);
         }
-        auto end = sc.now();
+        auto end = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        // output solusi
         cout << "---Solusi---\nReward: " << solve.point << "\nToken: ";
         for (int i = 0; i < solve.coordinate.size(); i++) {
             int x = get<0>(solve.coordinate[i]);
             int y = get<1>(solve.coordinate[i]);
             cout << solve.getElmt(x, y) << " ";
         }
-        cout << "\nKoordinat:\n"; solve.displayCoordinate(); cout << endl;
-        runtime = duration.count();
-        cout << runtime << " ms" << endl;
-    }
-    cout << "\nApakah ingin menyimpan solusi?\n1. Ya\n2. Tidak" << endl;
-    choice = inputChoice(1, 2);
-    if (choice == 1) {
-        file.saveToFile(solve, runtime);
+        solve.displayCoordinate();
+        if (solve.point == 0) {
+            cout << "Tidak ada solusi optimal!\n" << endl;
+        }
+        cout << duration.count() << " ms" << endl;
+        // save
+        cout << "\nApakah ingin menyimpan solusi?\n1. Ya\n2. Tidak" << endl;
+        choice = inputChoice(1, 2);
+        if (choice == 1) {
+            file.saveToFile(solve, duration.count());
+        }
     }
     cout << "\nPress enter to continue...";
     cin.ignore();
@@ -101,7 +87,7 @@ void runGame(int choice, Solver solve) {
 
 int main() {
     bool run = true;
-    int choice, countToken, countSeq, sizeSeq, randnum, randreward, buffer, row, col;;
+    int choice, countToken, countSeq, sizeSeq, randnum, randreward, buffer, row, col;
     string fileName, input;
     vector<string> token;
     File file("");
@@ -109,15 +95,14 @@ int main() {
     while (run)
     {
         clearScreen();
-        printHeader();
-        printMenu();
-        printChoice();
-        cin >> choice;
+        displayHeader();
+        displayMenu();
+        choice = inputChoice(1, 3);
         switch (choice)
         {
         case 1:
             clearScreen();
-            printHeader();
+            displayHeader();
             fileName = file.readFileName();
             file = File(fileName);
             solve = file.fromFile();
@@ -126,7 +111,7 @@ int main() {
 
         case 2:
             clearScreen();
-            printHeader();
+            displayHeader();
 
             do {
                 cout << "Masukkan jumlah token unik: "; cin >> countToken;
