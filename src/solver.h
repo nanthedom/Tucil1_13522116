@@ -38,7 +38,6 @@ class Solver {
         // operasi lainnya
         void addReward(int val);
         void addSequence(string val);
-        void maxReward();
         int countReward(string val);
         void search(int row, int col, string currToken, bool vertikal, int step);
 };

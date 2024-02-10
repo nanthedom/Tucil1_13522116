@@ -71,14 +71,6 @@ void Solver::addSequence(string val) {
     sequence.push_back(val);
 }
 
-void Solver::maxReward() {
-    for (int i = 0; i < reward.size(); i++) {
-        if (reward[i] > 0) {
-            maxpts += reward[i];
-        }
-    }   
-}
-
 int Solver::countReward(string val) {
     int res = 0;
     for (int i = 0; i < sequence.size(); i++) {
@@ -103,20 +95,14 @@ void Solver::search(int row, int col, string currToken, bool vertikal, int step)
     if (step < buffer) {
         if (vertikal) {
             for (int i = 0; i < getRowLength(); i++) {
-                if (point == maxpts) {
-                    return;
-                }
-                else if (!flag[i][col]) {
+                if (!flag[i][col]) {
                     search(i, col, currToken + getElmt(i, col), !vertikal, step + 1);
                 }
             }
         }
         else {
             for (int i = 0; i < getColLength(); i++) {
-                if (point == maxpts) {
-                    return;
-                }
-                else if (!flag[row][i]) {
+                if (!flag[row][i]) {
                     search(row, i, currToken + getElmt(row, i), !vertikal, step + 1);
                 }
             }     

@@ -49,7 +49,6 @@ void runGame(int choice, Solver solve) {
     solve.displayMatrixToken();
     solve.displayBuffer();
     solve.displayRewardSequence();
-    solve.maxReward();
 
     cout << "\nApakah ingin melihat solusi?\n1. Ya\n2. Tidak" << endl;
     choice = inputChoice(1, 2);
@@ -69,9 +68,6 @@ void runGame(int choice, Solver solve) {
             cout << solve.getElmt(x, y) << " ";
         }
         solve.displayCoordinate();
-        if (solve.point == 0) {
-            cout << "Tidak ada solusi optimal!\n" << endl;
-        }
         cout << duration.count() << " ms" << endl;
         // save
         cout << "\nApakah ingin menyimpan solusi?\n1. Ya\n2. Tidak" << endl;
