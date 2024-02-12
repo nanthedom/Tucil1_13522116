@@ -2,9 +2,9 @@
 #define __FILE_H
 
 #include <iostream>
-#include <fstream>
 #include <string>
-#include "solver.h"
+#include <fstream>
+#include "solver.hpp"
 using namespace std;
 
 class File {

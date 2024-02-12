@@ -1,9 +1,6 @@
-#include <iostream>
 #include <chrono>
-#include <ctime>
-#include <cstdlib>
-#include "file.h"
-#include "solver.h"
+#include "file.hpp"
+#include "solver.hpp"
 using namespace std;
 
 void clearScreen() {
@@ -42,6 +39,22 @@ int inputChoice(int start, int end) {
         } cout << "\n";        
     } while (choice < start || choice > end);
     return choice;
+}
+
+bool isStringExists(const vector<string>& list, const string& str) {
+    return find(list.begin(), list.end(), str) != list.end();
+}
+
+bool isAlphanumeric(const string& str) {
+    int i = 0;
+    bool flag = true;
+    while (i < str.length() && flag) {
+        if (!isalnum(str[i])) { 
+            flag = false;
+        }
+        i++;
+    }
+    return flag;
 }
 
 void runGame(int choice, Solver solve) {
@@ -121,10 +134,13 @@ int main() {
             for (int i = 0; i < countToken; i++) {
                 do {
                     cout << "Token unik ke-" << i + 1 << ": "; cin >> input;
-                    if (input.length() != 2) {
-                        cout << "Error: Token harus terdiri dari 2 karakter alfanumerik!\n Silakan masukkan kembali." << endl;
+                    if (input.length() != 2 || !isAlphanumeric(input)) {
+                        cout << "Error: Token harus terdiri dari 2 karakter alfanumerik!\nSilakan masukkan kembali." << endl;
                     }
-                } while (input.length() != 2);
+                    else if (isStringExists(token, input)) {
+                        cout << "Error: Token sudah ada, pastikan token unik!\nSilakan masukkan kembali." << endl;
+                    }
+                } while (input.length() != 2 || isStringExists(token, input) || !isAlphanumeric(input));
                 token[i] = input;
             }  
 
@@ -156,14 +172,13 @@ int main() {
 
             for (int i = 0; i < countSeq; i++) {
                 do {
-                    randnum = rand() % sizeSeq;
-                } while (randnum < 2);
-                
-                input = "";
-                for (int j = 0; j < randnum; j++) {
-                    int randomIndex = rand() % token.size();
-                    input = input + " " + token[randomIndex];
-                }
+                    randnum = rand() % (sizeSeq - 1) + 2;
+                    input = "";
+                    for (int j = 0; j < randnum; j++) {
+                        int randomIndex = rand() % token.size();
+                        input = input + " " + token[randomIndex];
+                    }
+                } while (isStringExists(solve.sequence, input));
                 solve.addSequence(input);
                 randreward = rand() % 41 + 10;
                 solve.addReward(randreward);

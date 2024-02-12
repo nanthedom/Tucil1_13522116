@@ -1,7 +1,11 @@
 #ifndef __SOLVER_H
 #define __SOLVER_H
 
+#include <iostream>
 #include <string>
+#include <algorithm>
+#include <ctime>
+#include <cstdlib>
 #include <vector>
 #include <tuple>
 using namespace std;
@@ -10,7 +14,6 @@ class Solver {
     public:
         int point;
         int buffer;
-        int maxpts;
         vector<int> reward;
         vector<string> sequence;
         vector<tuple<int, int>> coordinate;

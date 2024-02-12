@@ -1,14 +1,9 @@
-#include <iostream>
-#include <algorithm>
-#include <ctime>
-#include <cstdlib>
-#include "solver.h"
+#include "solver.hpp"
 using namespace std;
 
 Solver::Solver(int buffsize, int row, int col) {
     point = 0;
     buffer = buffsize;
-    maxpts = 0;
     matrix = vector<vector<string>>(row, vector<string>(col));
     flag = vector<vector<bool>>(row, vector<bool>(col, false));
 }
