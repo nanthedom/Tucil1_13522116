@@ -4,11 +4,18 @@ Penyelesaian Cyberpunk 2077 Breach Protocol dengan Algoritma Brute Force
 ## Daftar Isi
 - [Tugas Kecil 1 IF2211 Strategi Algoritma](#Tugas-Kecil-1-IF2211-Strategi-Algoritma)
   - [Daftar Isi](#Daftar-Isi)
+  - [Author](#Author)
   - [Ringkasan](#Ringkasan)
   - [Struktur Program](#Struktur-Program)
-  - [Bahasa](#Bahasa)
+  - [Requirement](#Requirement)
+  - [Cara Kompilasi](#cara-kompilasi)
   - [Cara Menjalankan](#Cara-Menjalankan)
-  - [Author](#Author)
+  - [Contact](#Contact)
+
+## Author
+| Nama  | NIM |
+| ------------- | ------------- |
+| Naufal Adnan  |  13522116  |
 
 ## Ringkasan
 Cyberpunk 2077 Breach Protocol merupakan minigame yang berisi simulasi peretasan jaringan local dari ICE (Intrusion Countermeasures Electronics) pada permainan Cyberpunk 2077. Komponen permainan ini terdiri dari token alfanumerik, matrix dari token-token, sekuens beserta rewardnya, dan buffer untuk menyusun token. Permainan dimulai dengan pemain memilih satu token pada posisi baris paling atas dari matrix lalu bergerak dengan pola vertikal-horizontal secara bergantian dan tidak melebihi ukuran buffer.
@@ -43,11 +50,21 @@ Program ini akan memberikan solusi dari permainan Breach Protocol yang paling op
 .
 ```
 
-## Bahasa
+## Requirement
+Program berbasis terminal menggunakan bahasa C++
 * [C++](https://isocpp.org/)
+Pastikan perangkat yang Anda gunakan memiliki g++ jika ingin mengkompilasi
+
+## Cara Kompilasi
+Jika ingin melakukan kompilasi ulang ikuti langkah berikut:
+1. Buka folder "Tucil1_13522116" di terminal
+2. Jalankan kompilasi pada terminal:
+   ```sh
+   g++  ./src/main.cpp ./src/file.cpp ./src/solver.cpp -o ./bin/main
+   ```
+3. Program berhasil dikompilasi
 
 ## Cara Menjalankan
-Program berbasis terminal menggunakan bahasa C++, pastikan perangkat yang Anda gunakan memiliki g++.
 1. Clone Repository
    ```sh
    git clone https://github.com/nanthedom/Tucil1_13522116.git
@@ -57,6 +74,11 @@ Program berbasis terminal menggunakan bahasa C++, pastikan perangkat yang Anda g
    ./bin/main.exe
    ```
 3. Program telah berjalan dan pastikan input yang anda masukkan *valid* untuk kenyamanan penggunaan.
+4. Pada input *>> Masukkan pilihan* pastikan Anda memasukkan *integer*, bukan string, float, atau yang lainnya.
+5. Pilih metode masukkan yang akan digunakan. Untuk input dari file tuliskan nama file dan ekstensi .txt (e.g. *test.txt*).
+6. Anda akan melihat preview dari game dan masukkan 1 jika ingin melihat solusi.
+7. Tunggu hingga solusi keluar.
+8. Simpan solusi jika diinginkan.
 
-## Author
-Naufal Adnan - 13522116@std.stei.itb.ac.id
+## Contact
+Naufal Adnan - naufnan@gmail.com
