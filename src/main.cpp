@@ -74,7 +74,7 @@ void runGame(int choice, Solver solve) {
         auto end = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
         // output solusi
-        cout << "---Solusi---\nReward: " << solve.point << "\nToken: ";
+        cout << "---Solusi---\nReward: " << solve.point << "\nBuffer: ";
         for (int i = 0; i < solve.coordinate.size(); i++) {
             int x = get<0>(solve.coordinate[i]);
             int y = get<1>(solve.coordinate[i]);

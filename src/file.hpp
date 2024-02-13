@@ -8,7 +8,6 @@
 using namespace std;
 
 class File {
-
     public:
         ifstream in;
         ofstream out;
