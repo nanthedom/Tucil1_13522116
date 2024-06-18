@@ -24,7 +24,7 @@ Solver File::fromFile() {
     int buffsize, row, col, countSeq, reward;
     string token;
     in.open(fileName);
-    in >> buffsize >> row >> col;
+    in >> buffsize >> col >> row;
     Solver solve(buffsize, row, col);
 
     for (int i = 0; i < row; i++) {

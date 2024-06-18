@@ -75,7 +75,7 @@ Jika ingin melakukan kompilasi ulang ikuti langkah berikut:
    ```
 3. Program telah berjalan dan pastikan input yang anda masukkan *valid* untuk kenyamanan penggunaan.
 4. Pada input *>> Masukkan pilihan* pastikan Anda memasukkan *integer*, bukan string, float, atau yang lainnya.
-5. Pilih metode masukkan yang akan digunakan. Untuk input dari file tuliskan nama file dan ekstensi .txt (e.g. *test.txt*).
+5. Pilih metode masukkan yang akan digunakan. Untuk input dari file tuliskan nama file dan ekstensi .txt (e.g. *test.txt*), pastikan format input file benar!
 6. Anda akan melihat preview dari game dan masukkan 1 jika ingin melihat solusi.
 7. Tunggu hingga solusi keluar.
 8. Simpan solusi jika diinginkan.
